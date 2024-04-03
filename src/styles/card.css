@@ -1,0 +1,7 @@
+.card img {
+  aspect-ratio: 8/13;
+}
+
+.card .img {
+  border-radius: 10px;
+}
