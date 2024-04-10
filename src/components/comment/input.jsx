@@ -1,57 +1,53 @@
 "use client";
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import swr, { useSWRConfig } from "swr";
+import { getCookie } from "@/utils/auth";
+import { trimmedData } from "@/utils/trimmed";
 
 export default function Input({ Id }) {
   const { mutate } = useSWRConfig();
   const [msg, setMsg] = useState("");
-  const user = localStorage.getItem("user");
-  const email = localStorage.getItem("email");
-  const isLogin = localStorage.getItem("il");
-  const id = Id;
+  const nav = useRouter();
 
   const hanlePostostData = async () => {
-    if (msg.length !== "") {
-      const postData = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACK_END_URL}/comment`,
-        {
-          mal_id: id,
-          user: user,
-          email: email,
-          comment: msg,
-        }
-      );
-      setMsg("");
-      mutate("comment");
+    if (getCookie("isLogin") && getCookie("user") && getCookie("email")) {
+      if (trimmedData(msg)) {
+        const postData = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACK_END_URL}/comment`,
+          {
+            mal_id: Id,
+            user: getCookie("user"),
+            email: getCookie("email"),
+            comment: msg,
+          }
+        );
+        setMsg("");
+        mutate("comment");
+      } else {
+        alert("masukan comment");
+      }
     } else {
-      alert("masukan comment");
+      return nav.push(`/account/login`);
     }
   };
-
-  localStorage.setItem("il", "true");
-  localStorage.setItem("user", "Widiana");
-  localStorage.setItem("email", "widiana@gmail.com");
-
   return (
     <>
-      <div>
-        {isLogin === "true" && (
-          <>
-            <textarea
-              name=""
-              style={{ resize: "none", border: "2px solid black" }}
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
-            ></textarea>
-            <button
-              style={{ border: "2px solid black" }}
-              onClick={hanlePostostData}
-            >
-              Submit
-            </button>
-          </>
-        )}
+      <div className="flex">
+        <textarea
+          name=""
+          style={{ resize: "none", border: "2px solid black" }}
+          value={msg}
+          onChange={(e) => setMsg(e.target.value)}
+          id="inputComment"
+        ></textarea>
+        <button
+          style={{ border: "2px solid black" }}
+          onClick={hanlePostostData}
+        >
+          Submit
+        </button>
       </div>
     </>
   );

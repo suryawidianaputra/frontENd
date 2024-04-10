@@ -24,6 +24,7 @@ export default function Card({ Edit, Limit, Header, Res }) {
 
   return (
     <>
+      <div style={{ height: "50px" }}></div>
       <h1 className="text-2xl text-center">{Header}</h1>
       <div className="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-4 px-4">
         {anime.data?.map((el) => (
