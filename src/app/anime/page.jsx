@@ -1,9 +1,13 @@
 import Card from "@/components/card/card.jsx";
+import Navbar from "@/components/navbar/navbar";
 
 export default function AnimeList() {
   return (
-    <div>
-      <Card Edit={true} Header={`Anime`} Res={true} />
-    </div>
+    <>
+      <Navbar />;
+      <div>
+        <Card Edit={true} Header={`Anime`} Res={true} />
+      </div>
+    </>
   );
 }

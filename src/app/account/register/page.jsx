@@ -1,17 +1,16 @@
 "use client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { loginMiddelware, setLogin } from "@/utils/loginMiddelware";
+import { setLogin } from "@/utils/loginMiddelware";
 import { validateEmail } from "@/utils/emailValidate";
 import { trimmedData } from "@/utils/trimmed";
-import { useRouter } from "next/navigation";
-
-import { getCookie, setCookie, removeCookie } from "@/utils/auth";
+import { getCookie } from "@/utils/auth";
 
 export default function Register() {
-  console.log(getCookie("isLogin" + getCookie("email") + getCookie("user")));
   const nav = useRouter();
-  loginMiddelware("register");
+  if (getCookie("isLogin") && getCookie("user") && getCookie("email"))
+    return nav.back();
   const [showPassword, setShowPassword] = useState(false);
   const [err, setErr] = useState({
     username: false,
@@ -23,12 +22,13 @@ export default function Register() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+    if (getCookie("isLogin") && getCookie("user") && getCookie("email"))
+      return nav.push("/");
     let error = { username: false, email: false, password: false };
     if (!trimmedData(username)) error.username = true;
     if (!trimmedData(email) || !validateEmail(email)) error.email = true;
     if (!trimmedData(password)) error.password = true;
     setErr(error);
-
     if (!(error.username && error.email && error.password)) {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_END_URL}/user`,
@@ -43,14 +43,13 @@ export default function Register() {
         return;
       }
       if (!res.data.isLogin) return (error.email = true);
-    } else return console.log("error");
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-xs">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          {/* Username */}
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -73,7 +72,6 @@ export default function Register() {
             )}
           </div>
 
-          {/* Email */}
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -96,7 +94,6 @@ export default function Register() {
             )}
           </div>
 
-          {/* Password */}
           <div className="mb-6 relative">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -126,7 +123,6 @@ export default function Register() {
             )}
           </div>
 
-          {/* Submit button */}
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -1,14 +1,8 @@
 "use client";
-import { getCookie } from "@/utils/auth";
-import { useRouter } from "next/navigation";
+import { isNotlogin } from "@/utils/loginMiddelware";
 
 export default function Account() {
-  const nav = useRouter();
-  if (
-    getCookie("isLogin") === "false" &&
-    !(getCookie("user") && getCookie("email"))
-  )
-    return nav.push("/account/login");
+  isNotlogin();
   return (
     <div>
       <h1>account page</h1>
