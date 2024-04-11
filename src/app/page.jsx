@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <Navbar />
       <div className="">
-        <Card Edit={false} Limit={false} Header={"Top Anime"} />
+        <Card Edit={true} Limit={false} Header={"Top Anime"} />
       </div>
     </div>
   );

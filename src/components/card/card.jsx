@@ -39,7 +39,7 @@ export default function Card({ Edit, Limit, Header, Res }) {
                   className="w-full object-cover hover:scale-105 transition-all"
                 />
               </div>
-              <p className="">{el.title}</p>
+              <p className="text-justify">{el.title}</p>
             </div>
           </Link>
         ))}

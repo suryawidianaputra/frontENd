@@ -9,8 +9,9 @@ export const isLogin = () => {
 };
 
 export const isNotlogin = () => {
+  const nav = useRouter();
   if (!(getCookie("isLogin") && getCookie("user") && getCookie("email")))
-    return nav.back();
+    return nav.push("/");
 };
 
 export const setLogin = (user, email) => {
