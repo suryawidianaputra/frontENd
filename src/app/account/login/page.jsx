@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import { isLogin, setLogin } from "@/utils/loginMiddelware";
 import { validateEmail } from "@/utils/emailValidate";
 import { useState } from "react";
+import { getCookie } from "@/utils/auth";
 import { trimmedData } from "@/utils/trimmed";
 
 export default function Login() {
   const nav = useRouter();
-  isLogin();
+  if (getCookie("isLogin") && getCookie("user") && getCookie("email"))
+    return nav.back();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -18,7 +20,8 @@ export default function Login() {
   });
 
   const handleLogin = async () => {
-    isLogin();
+    if (getCookie("isLogin") && getCookie("user") && getCookie("email"))
+      return nav.back();
     let error = { email: false, password: false };
     if (!trimmedData(email) || !validateEmail(email)) error.email = true;
     if (!trimmedData(pass)) error.password = true;

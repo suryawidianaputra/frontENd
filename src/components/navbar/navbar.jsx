@@ -1,55 +1,86 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import Close from "@/assets/icons/close.svg";
-import Menu from "@/assets/icons/menu.svg";
+import $ from "jquery";
+import menu from "@/assets/icons/menu.svg";
+import close from "@/assets/icons/close.svg";
+import { getCookie } from "@/utils/auth";
 import "@/styles/navbar.css";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
-  const [icon, setIcon] = useState(Menu);
-  const [count, setCount] = useState(false);
-  const [translate, setTranslate] = useState(100);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleChangeIcon = () => {
-    setCount(!count);
-    if (!count) {
-      setIcon(Close);
-      setTranslate(0);
-    } else {
-      setIcon(Menu);
-      setTranslate(100);
+  const Open = () =>
+    $(".container-navbar").css({ transform: "translateX(0%)" });
+  const Close = () =>
+    $(".container-navbar").css({ transform: "translateX(-100%)" });
+
+  useEffect(() => {
+    const email = getCookie("email");
+    const user = getCookie("user");
+    const isLogin = getCookie("isLogin");
+    if (email && user && isLogin) {
+      setIsLoggedIn(true);
     }
+  }, []);
+
+  const Login = () => {
+    getCookie("email") && getCookie("user") && getCookie("isLogin") ? null : (
+      <li>
+        <Link href="/account/login">
+          <p>Login</p>
+        </Link>
+      </li>
+    );
   };
 
   return (
-    <div className="container-navbar flex w-full justify-between items-center fixed bg-primaryBlue">
-      <div className="icons">
+    <>
+      <div className="nav w-full bg-red-500">
         <Image
-          src={icon}
-          alt="..."
-          width={25}
-          height={25}
-          className="nav-icon"
-          onClick={handleChangeIcon}
+          src={menu}
+          width={30}
+          height={30}
+          alt={``}
+          className="fixed cursor-pointer left-2 top-2"
+          onClick={Open}
+          style={{ zIndex: 999 }}
         />
       </div>
-      <ul
-        className="list-navbar flex w-full justify-center gap-4 bg-primaryBlue"
-        style={{
-          transform: `translateX(${translate}%)`,
-        }}
+      <div
+        className="container-navbar fixed bg-primaryBlue"
+        style={{ zIndex: 999 }}
       >
-        <li>
-          <Link href={`/`}>Home</Link>
-        </li>
-        <li>
-          <Link href={`/anime`}>Anime</Link>
-        </li>
-        <li>
-          <Link href={`/account`}>Account</Link>
-        </li>
-      </ul>
-    </div>
+        <div className="items-center flex justify-center p-2">
+          <Image
+            src={close}
+            width={30}
+            height={30}
+            alt={``}
+            className="absolute left-2 cursor-pointer"
+            onClick={Close}
+          />
+          <h1 className="text-center">Anime(Misme)</h1>
+        </div>
+        <ul className="h-screen flex flex-col items-center justify-evenly">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/anime">Anime</a>
+          </li>
+          {isLoggedIn ? (
+            <li>
+              <a href="/account">{"Account"}</a>
+            </li>
+          ) : (
+            <li>
+              <a href="/account/login">Login</a>
+            </li>
+          )}
+        </ul>
+      </div>
+    </>
   );
 }

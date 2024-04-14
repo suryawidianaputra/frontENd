@@ -2,10 +2,9 @@
 import axios from "axios";
 import Image from "next/image";
 import User from "@/assets/icons/user.svg";
-import swr, { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import DeleteComment from "./deleteComment";
 import { getCookie } from "@/utils/auth";
-import "@/styles/comment.css";
 
 export default function Comment({ Id }) {
   const { mutate } = useSWRConfig();
@@ -15,37 +14,39 @@ export default function Comment({ Id }) {
     );
     return comment.data;
   };
-  const { data } = swr("comment", handleGetComment);
+  const { data } = useSWR("comment", handleGetComment);
 
   return (
-    <div>
-      <h1 className="text-2xl p-2">Comment</h1>
+    <div className="bg-white shadow rounded-lg p-4">
+      <h1 className="text-xl font-semibold text-gray-800 mb-4">Komentar</h1>
       {data?.data.length === 0 ? (
-        <h1>Tidak ada comment</h1>
+        <p className="text-gray-600">Tidak ada komentar.</p>
       ) : (
-        <div className="container-comment grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3">
+        <div className="space-y-4">
           {data?.data.map((el, index) => (
-            <div key={index} className="comment p-2 w-full break-words">
-              <div className="flex items-center">
-                <Image
-                  src={User}
-                  width={50}
-                  height={50}
-                  alt="..."
-                  className="user-icon"
-                />
-                <h1 className="text-2xl font-bold px-2">{el.user}</h1>
-                {el.email === getCookie("email") && (
-                  <DeleteComment mutate={mutate} id={el.id} />
-                )}
+            <div key={index} className="flex gap-4">
+              <Image
+                src={User}
+                width={50}
+                height={50}
+                alt="User icon"
+                className="rounded-full"
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-md font-semibold text-gray-900">
+                    {el.user}
+                  </h2>
+                  {el.email === getCookie("email") && (
+                    <DeleteComment mutate={mutate} id={el.id} />
+                  )}
+                </div>
+                <p className="text-gray-600 mt-1">{el.comment}</p>
               </div>
-              <br />
-              <p>{el.comment}</p>{" "}
             </div>
           ))}
         </div>
       )}
-      <h1></h1>
     </div>
   );
 }

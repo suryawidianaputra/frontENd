@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/navbar";
 export default function AnimeList() {
   return (
     <>
-      <Navbar />;
+      <Navbar />
       <div>
         <Card Edit={true} Header={`Anime`} Res={true} />
       </div>

@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/navbar";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-grey-500">
       <Navbar />
       <div className="">
         <Card Edit={true} Limit={false} Header={"Top Anime"} />
