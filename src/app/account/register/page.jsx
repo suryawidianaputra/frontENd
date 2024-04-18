@@ -29,6 +29,7 @@ export default function Register() {
     if (!trimmedData(email) || !validateEmail(email)) error.email = true;
     if (!trimmedData(password)) error.password = true;
     setErr(error);
+    !validateEmail(email);
     if (!(error.username && error.email && error.password)) {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_END_URL}/user`,

@@ -24,6 +24,7 @@ export default function Login() {
       return nav.back();
     let error = { email: false, password: false };
     if (!trimmedData(email) || !validateEmail(email)) error.email = true;
+    if (!validateEmail(email)) error.email = true;
     if (!trimmedData(pass)) error.password = true;
     setErr(error);
 
