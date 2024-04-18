@@ -26,7 +26,7 @@ export default function Navbar() {
   }, []);
 
   const Login = () => {
-    getCookie("email") && getCookie("user") && getCookie("isLogin") ? null : (
+    isLoggedIn && (
       <li>
         <Link href="/account/login">
           <p>Login</p>
@@ -61,7 +61,7 @@ export default function Navbar() {
             className="absolute left-2 cursor-pointer"
             onClick={Close}
           />
-          <h1 className="text-center">Anime(Misme)</h1>
+          <h1 className="text-center md:text-lg sm:text-sm">Anime</h1>
         </div>
         <ul className="h-screen flex flex-col items-center justify-evenly">
           <li>

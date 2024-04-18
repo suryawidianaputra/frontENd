@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import UserIcon from "@/assets/icons/userW.svg";
-import LogoutIcon from "@/assets/icons/logout.svg";
 import { isNotlogin, removeLogin } from "@/utils/loginMiddelware";
 import { getCookie } from "@/utils/auth";
 import React from "react";
@@ -47,6 +46,7 @@ export default function Account() {
             >
               Logout
             </button>
+            <a href="/account/security">Ganti Password</a>
           </div>
         </div>
       </div>
