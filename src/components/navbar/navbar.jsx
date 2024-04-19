@@ -70,6 +70,9 @@ export default function Navbar() {
           <li>
             <a href="/anime">Anime</a>
           </li>
+          <li>
+            <a href="/search">Search</a>
+          </li>
           {isLoggedIn ? (
             <li>
               <a href="/account">{"Account"}</a>

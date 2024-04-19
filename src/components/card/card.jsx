@@ -11,6 +11,9 @@ export default function Card({ Edit, Limit, Header, Res }) {
   const [anime, setAnime] = useState([]);
   const [page, setPage] = useState(1);
   const [slid, setSlid] = useState(false);
+  // const [visiblePage, setVisiblePage] = useState(
+  //   anime.pagination.last_visible_page
+  // );
   setTimeout(() => {
     setSlid(true);
   }, 1000);

@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { isLogin, setLogin } from "@/utils/loginMiddelware";
+import { setLogin } from "@/utils/loginMiddelware";
 import { validateEmail } from "@/utils/emailValidate";
 import { useState } from "react";
 import { getCookie } from "@/utils/auth";
@@ -38,7 +38,6 @@ export default function Login() {
         setEmail("");
         setPass("");
         nav.push("/");
-        console.log("succes");
         return;
       }
       if (!res.data.isLogin) return (error.email = true);

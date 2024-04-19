@@ -17,7 +17,7 @@ export default function Comment({ Id }) {
   const { data } = useSWR("comment", handleGetComment);
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
+    <div className="bg-white shadow rounded-lg p-4 my-2">
       <h1 className="text-xl font-semibold text-gray-800 mb-4">Komentar</h1>
       {data?.data.length === 0 ? (
         <p className="text-gray-600">Tidak ada komentar.</p>

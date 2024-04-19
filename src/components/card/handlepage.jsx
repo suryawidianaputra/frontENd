@@ -14,9 +14,7 @@ export default function HandlePage({ Page, setPage }) {
       <h1 className="px-5 text-2xl">{Page}</h1>
       <button
         className="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700 transition duration-300 ease-in-out"
-        onClick={() => {
-          setPage(Page + 1);
-        }}
+        onClick={() => setPage(Page + 1)}
       >
         Next
       </button>
