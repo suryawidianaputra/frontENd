@@ -11,9 +11,7 @@ export default function Card({ Edit, Limit, Header, Res }) {
   const [anime, setAnime] = useState([]);
   const [page, setPage] = useState(1);
   const [slid, setSlid] = useState(false);
-  // const [visiblePage, setVisiblePage] = useState(
-  //   anime.pagination.last_visible_page
-  // );
+  const [visiblePage, setVisiblePage] = useState();
   setTimeout(() => {
     setSlid(true);
   }, 1000);
@@ -24,10 +22,12 @@ export default function Card({ Edit, Limit, Header, Res }) {
       `${Limit && "limit=8"}&&page=${page}`
     );
     setAnime(anime.data);
+    setVisiblePage(anime.data.pagination.last_visible_page);
   };
   useEffect(() => {
     animeResponse();
   }, [page]);
+
   return (
     <>
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 p-2">
@@ -58,7 +58,9 @@ export default function Card({ Edit, Limit, Header, Res }) {
           </Link>
         ))}
       </div>
-      {anime.data && Edit && <HandlePage Page={page} setPage={setPage} />}
+      {anime.data && Edit && (
+        <HandlePage Page={page} setPage={setPage} visiblePage={visiblePage} />
+      )}
       {slid && <Slider Anime={anime} />}
     </>
   );
